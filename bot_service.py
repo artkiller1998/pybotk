@@ -4,6 +4,8 @@ import requests
 import re
 import os
 
+bot = telebot.TeleBot('1378786467:AAEl63DYdwj7peYZvL9T1OLm0w91rmTT_-0')
+
 
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
 keyboard1.row('📱 (Phone / Pad)', '🖥️ (Pc / Tv)', '')
