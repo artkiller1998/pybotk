@@ -3,6 +3,8 @@ import telebot
 import requests
 import re
 import os
+import subprocess 
+import shutil
 
 try:
     bot = telebot.TeleBot('1378786467:AAEl63DYdwj7peYZvL9T1OLm0w91rmTT_-0')
@@ -47,6 +49,7 @@ try:
 
     def category_sender(message):
         global category
+        
        # if message.text in cat_tvpc:
           #  category = message.text
             #bot.send_message(message.chat.id, 'TVPC')
@@ -69,11 +72,12 @@ try:
             photo_id = re.search(r'photo-(.+)\?', photo_url).group(0)[:-1]
 
             subdir = './photos/'
+            check_folder_size()
             if not os.path.exists(subdir):
                 os.mkdir(subdir)
-
-            print(photo_id)
-            print(photo_url)
+ 
+            #print(photo_id)
+            #print(photo_url)
             #bot.send_message(message.chat.id, photo_url)
             response = requests.get(photo_url)
             path_to_file = subdir + photo_id + '.jpeg'
@@ -101,12 +105,27 @@ try:
         elif message.text == 'Select another device 🔄':
             change_device(message)
         elif message.text == 'Next  ▶️':
-            message.text = category
-            category_sender(message)
+            try:
+                message.text = category
+                category_sender(message)
+            except:
+                message.text = 'tv'
+                category_sender(message)
         else:
             category_sender(message)
 
 
+    def check_folder_size():
+        dir = './photos'
+        res_size = float(du(dir)[:-1].replace(',','.'))
+        #print(res_size)
+        #print(res_size > 10)
+        if res_size > 460 :
+            path = os.path.join(os.path.abspath(os.path.dirname(__file__)), dir)
+            shutil.rmtree(path)
+
+    def du(path):
+        return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8') 
 
 
 
