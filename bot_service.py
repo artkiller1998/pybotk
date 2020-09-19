@@ -34,7 +34,7 @@ try:
         bot.send_message(message.chat.id, "Hello, friend! Please select type of your device.", reply_markup=keyboard1)
 
     @bot.message_handler(commands=['change'])
-    def change_device():
+    def change_device(message):
         bot.send_message(message.chat.id, "Please select type of your device.", reply_markup=keyboard1)
         tvpc_photos_group = set()
         phones_photos_group = set()
@@ -99,7 +99,7 @@ try:
         elif message.text == '📱 (Phone / Pad)':
             bot.send_message(message.chat.id, 'Choose one from menu:', reply_markup=keyboard1_2)
         elif message.text == 'Select another device 🔄':
-            change_device()
+            change_device(message)
         elif message.text == 'Next  ▶️':
             message.text = category
             category_sender(message)
