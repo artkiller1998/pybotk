@@ -117,15 +117,15 @@ try:
 
     def check_folder_size():
         dir = './photos'
-        res_size = float(du(dir)[:-1].replace(',','.'))
+        res_size = du(dir)
         #print(res_size)
-        #print(res_size > 10)
-        if res_size > 460 :
+        #print(res_size > 460000000)
+        if res_size > 460000000 :
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)), dir)
             shutil.rmtree(path)
 
     def du(path):
-        return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8') 
+        return sum(d.stat().st_size for d in os.scandir(path) if d.is_file())
 
 
 
